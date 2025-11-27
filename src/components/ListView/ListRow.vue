@@ -1,7 +1,7 @@
 <template>
   <component
     :is="list.options.getRowRoute ? 'router-link' : 'div'"
-    class="flex cursor-pointer flex-col transition-all duration-300 ease-in-out"
+    class="flex cursor-pointer flex-col dark:hover:!bg-black"
     v-bind="{
       to: list.options.getRowRoute ? list.options.getRowRoute(row) : undefined,
       onClick: list.options.onRowClick
@@ -11,14 +11,15 @@
   >
     <component
       :is="list.options.getRowRoute ? 'template' : 'button'"
-      class="[all:unset] hover:[all:unset]"
+      class="[all:unset] hover:[all:unset] dark:hover:!bg-black"
+      style="padding: 0px !important"
     >
       <div
-        class="grid items-center space-x-4 rounded px-2"
+        class="grid items-center space-x-4 rounded px-3"
         :class="
           list.selections.has(row[list.rowKey])
-            ? 'bg-gray-100 hover:bg-gray-200'
-            : 'hover:bg-gray-50'
+            ? 'bg-gray-100 hover:bg-gray-200 dark:hover:!bg-black'
+            : 'hover:bg-gray-50 dark:hover:!bg-black'
         "
         :style="{
           height: rowHeight,
@@ -29,10 +30,12 @@
         }"
       >
         <Checkbox
+          variant="subtle"
+          size="sm"
           v-if="list.options.selectable"
           :modelValue="list.selections.has(row[list.rowKey])"
           @click.stop="list.toggleRow(row[list.rowKey])"
-          class="cursor-pointer duration-300"
+          class="cursor-pointer duration-300 dark:!bg-[#232830]"
         />
         <div
           v-for="(column, i) in list.columns"
@@ -41,6 +44,7 @@
             alignmentMap[column.align],
             i == 0 ? 'text-gray-900' : 'text-gray-700',
           ]"
+          class="dark:!text-[#E8E8E8]"
         >
           <slot v-bind="{ idx: i, column, item: row[column.key] }">
             <component
@@ -63,7 +67,10 @@
           </slot>
         </div>
       </div>
-      <div v-if="!isLastRow" class="mx-2 h-px border-t border-gray-200" />
+      <div
+        v-if="!isLastRow"
+        class="mx-0 h-px border-t border-gray-200 dark:!border-[#656565]"
+      />
     </component>
   </component>
 </template>

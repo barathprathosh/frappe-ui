@@ -96,11 +96,11 @@ const buttonClasses = computed(() => {
   }[props.theme]
 
   let outlineClasses = {
-    gray: 'text-gray-800 bg-white border border-gray-300 hover:border-gray-400 active:border-gray-400 active:bg-gray-300',
-    blue: 'text-blue-600 bg-white border border-blue-300 hover:border-blue-400 active:border-blue-400 active:bg-blue-300',
+    gray: 'text-ink-gray-8 bg-surface-white bg-surface-white hover:border-outline-gray-3 active:border-outline-gray-3 active:bg-surface-gray-4',
+    blue: 'text-ink-blue-3 bg-surface-white border border-outline-blue-1 hover:border-blue-400 active:border-blue-400 active:bg-blue-300',
     green:
-      'text-green-800 bg-white border border-green-400 hover:border-green-500 active:border-green-500 active:bg-green-300',
-    red: 'text-red-700 bg-white border border-red-300 hover:border-red-400 active:border-red-400 active:bg-red-200',
+      'text-green-800 bg-surface-white border border-outline-green-2 hover:border-green-500 active:border-green-500 active:bg-green-300',
+    red: 'text-red-700 bg-surface-white border border-outline-red-1 hover:border-outline-red-2 active:border-outline-red-2 active:bg-surface-red-3',
   }[props.theme]
 
   let ghostClasses = {
@@ -123,6 +123,23 @@ const buttonClasses = computed(() => {
     solid: solidClasses,
     outline: outlineClasses,
     ghost: ghostClasses,
+    custom: `
+    custom-button !text-white bg-[#F05A28] hover:bg-[#d94f21] active:bg-[#c7471d]
+      !h-[40px] !px-[24px] !py-[12px] gap-[10px] !text-[16px]
+    font-medium transition-all duration-200 focus:outline-none
+    disabled:opacity-100 disabled:cursor-not-allowed
+  `,
+    cancel: `
+    cancel-button text-[#1F3F3A] bg-[#F4F5F9] border-[#E0E0E0]
+    dark:!text-[#898989] dark:!bg-[#F4F5F9]
+    hover:bg-[#EAEAEA] active:bg-[#D9D9D9]
+    !h-[40px] !px-[24px] !py-[12px] !text-[16px]
+    font-medium transition-all duration-200`,
+    delete20: `
+    custom-button  !text-[#F54A45] !bg-[#F54A4533] rounded-[8px]
+      !h-[30px] !px-[10px] !py-[12px] gap-[10px] !text-[16px]
+    font-medium transition-all duration-200 focus:outline-none
+  `,
   }[props.variant]
 
   let themeVariant = `${props.theme}-${props.variant}`
@@ -206,3 +223,13 @@ const handleClick = () => {
   }
 }
 </script>
+<style>
+.custom-button {
+  border-radius: 8px !important;
+  font-weight: 600 !important;
+}
+.cancel-button {
+  border-radius: 8px !important;
+  font-weight: 500 !important;
+}
+</style>

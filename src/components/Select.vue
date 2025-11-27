@@ -126,15 +126,17 @@ const selectClasses = computed(() => {
   let variant = props.disabled ? 'disabled' : props.variant
   let variantClasses = {
     subtle:
-      'border border-gray-100 bg-gray-100 hover:border-gray-200 hover:bg-gray-200 focus:border-gray-500 focus:ring-0 focus-visible:ring-2 focus-visible:ring-gray-400',
+      'outline-border !h-[45px] !rounded-[8px] bg-surface-white hover:border-outline-gray-3 focus:border-outline-gray-4 focus:ring-0 focus-visible:ring-2 focus-visible:ring-outline-gray-3  dark:!bg-[#101213] dark:!text-[white] dark:!border-[#898989!important]',
     outline:
-      'border border-gray-300 bg-white hover:border-gray-400 focus:border-gray-500 focus:ring-0 focus-visible:ring-2 focus-visible:ring-gray-400',
+      'outline-border !h-[45px] !rounded-[8px] bg-surface-white hover:border-outline-gray-3 focus:border-outline-gray-4 focus:ring-0 focus-visible:ring-2 focus-visible:ring-outline-gray-3  dark:!bg-[#101213] dark:!text-[white] dark:!border-[#898989!important]',
     ghost:
       'bg-transparent border-transparent hover:bg-gray-200 focus:bg-gray-200 focus:border-gray-500 focus:ring-0 focus-visible:ring-2 focus-visible:ring-gray-400',
     disabled: [
       'border',
       props.variant !== 'ghost' ? 'bg-gray-50' : '',
-      props.variant === 'outline' ? 'border-gray-300' : 'border-transparent',
+      props.variant === 'outline'
+        ? 'outline-border !h-[45px] !rounded-[8px] bg-surface-white hover:border-outline-gray-3 focus:border-outline-gray-4 focus:ring-0 focus-visible:ring-2 focus-visible:ring-outline-gray-3  dark:!bg-[#101213] dark:!text-[white] dark:!border-[#898989!important]'
+        : 'border-transparent',
     ],
   }[variant]
 
@@ -157,3 +159,20 @@ let prefixClasses = computed(() => {
   }[props.size]
 })
 </script>
+<style>
+.outline-border {
+  border: 1px solid #898989;
+}
+
+select option {
+  border-bottom: 1px solid #dcdcdc;
+  font-size: 20px !important;
+  font-family: 'Montserrat', sans-serif;
+}
+
+:root.dark select option {
+  background-color: #101213;
+  border-bottom: 1px solid #555;
+  color: white;
+}
+</style>

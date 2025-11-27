@@ -1,6 +1,6 @@
 <template>
   <div
-    class="mb-2 grid items-center space-x-4 rounded bg-gray-100 p-2"
+    class="grid !h-[48px] items-center space-x-4 rounded border-b border-transparent !bg-[#E6F3F1] px-3 py-2 !text-black hover:!bg-gray-300 dark:!border-[#656565] dark:!bg-[#E6F3F1]"
     :style="{
       gridTemplateColumns: getGridTemplateColumns(
         list.columns,
@@ -10,7 +10,8 @@
   >
     <Checkbox
       v-if="list.options.selectable"
-      class="cursor-pointer duration-300"
+      size="md"
+      class="cursor-pointer duration-300 dark:!bg-[#232830]"
       :modelValue="list.allRowsSelected"
       @click.stop="list.toggleAllRows"
     />

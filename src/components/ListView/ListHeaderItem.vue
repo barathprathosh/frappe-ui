@@ -5,7 +5,7 @@
     :class="item.align ? alignmentMap[item.align] : 'justify-between'"
   >
     <div
-      class="flex items-center space-x-2 truncate text-sm text-gray-600"
+      class="text-md flex items-center space-x-2 truncate font-medium text-[#262626] dark:!text-black"
       :class="$attrs.class"
     >
       <slot name="prefix" v-bind="{ item }" />

@@ -1,5 +1,5 @@
 <template>
-  <div class="flex justify-between gap-2">
+  <div class="flex justify-between gap-2 dark:!bg-[#232830]">
     <slot>
       <slot name="left">
         <TabButtons

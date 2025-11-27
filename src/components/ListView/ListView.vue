@@ -1,7 +1,8 @@
 <template>
-  <div class="relative flex w-full flex-1 flex-col overflow-x-auto">
+  <div class="relative flex w-full flex-1 flex-col overflow-x-auto !px-[1rem]">
     <div
-      class="flex w-max min-w-full flex-col overflow-y-hidden"
+      class="flex w-max min-w-full flex-col overflow-y-hidden rounded-[16px] border border-solid border-[#E7E7E7] bg-[#FFFFFF] dark:!border-[#656565] dark:!bg-[#232830]"
+      style="border: 1px solid #e7e7e7"
       :class="$attrs.class"
     >
       <slot v-bind="{ showGroupedRows, selectable }">

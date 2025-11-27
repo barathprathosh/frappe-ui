@@ -42,7 +42,7 @@
           v-bind="item.route ? { to: item.route } : { onClick: item.onClick }"
         >
           <slot name="prefix" :item="item" />
-          <span>
+          <span class="dark:!text-white">
             {{ item.label }}
           </span>
         </component>

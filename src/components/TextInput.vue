@@ -104,12 +104,13 @@ const inputClasses = computed(() => {
   let variant = props.disabled ? 'disabled' : props.variant
   let variantClasses = {
     subtle:
-      'border border-gray-100 bg-gray-100 placeholder-gray-500 hover:border-gray-200 hover:bg-gray-200 focus:bg-white focus:border-gray-500 focus:shadow-sm focus:ring-0 focus-visible:ring-2 focus-visible:ring-gray-400',
+      'outline-border border-[#898989 !important] !h-[45px] !rounded-[8px] bg-surface-white placeholder-ink-gray-4 hover:border-outline-gray-3 hover:shadow-sm focus:bg-surface-white focus:border-outline-gray-4 focus:shadow-sm focus:ring-0 focus-visible:ring-2 focus-visible:ring-outline-gray-3 dark:!bg-[#101213] dark:!text-[white] dark:!border-[#898989!important]',
     outline:
-      'border border-gray-300 bg-white placeholder-gray-500 hover:border-gray-400 hover:shadow-sm focus:bg-white focus:border-gray-500 focus:shadow-sm focus:ring-0 focus-visible:ring-2 focus-visible:ring-gray-400',
+      'outline-border border-[#898989 !important] !h-[45px] !rounded-[8px] bg-surface-white placeholder-ink-gray-4 hover:border-outline-gray-3 hover:shadow-sm focus:bg-surface-white focus:border-outline-gray-4 focus:shadow-sm focus:ring-0 focus-visible:ring-2 focus-visible:ring-outline-gray-3 dark:!bg-[#101213] dark:!text-[white] dark:!border-[#898989!important]',
     disabled: [
-      'border bg-gray-50 placeholder-gray-400',
-      props.variant === 'outline' ? 'border-gray-300' : 'border-transparent',
+      props.variant === 'outline'
+        ? 'outline-border dark:!bg-[#101213] dark:!text-[white] dark:!border-[#898989!important] border-[#898989 !important] !h-[45px] !rounded-[8px] bg-surface-white placeholder-ink-gray-4'
+        : 'outline-border dark:!bg-[#101213] dark:!text-[white] dark:!border-[#898989!important] border-[#898989 !important] !h-[52px] !rounded-[8px] bg-surface-white placeholder-ink-gray-4',
     ],
   }[variant]
 
@@ -151,3 +152,8 @@ let handleChange = (e: Event) => {
   emitChange((e.target as HTMLInputElement).value)
 }
 </script>
+<style>
+.outline-border {
+  border: 1px solid #898989;
+}
+</style>

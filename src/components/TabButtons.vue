@@ -1,6 +1,8 @@
 <template>
   <RadioGroup v-model="value">
-    <div class="flex space-x-1 rounded bg-gray-100 p-0.5 text-sm">
+    <div
+      class="flex space-x-1 rounded bg-gray-100 p-0.5 text-sm dark:!bg-[#101213]"
+    >
       <RadioGroupOption
         as="template"
         v-for="button in buttons"

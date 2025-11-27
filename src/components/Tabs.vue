@@ -20,8 +20,17 @@
       >
         <slot name="tab" v-bind="{ tab, selected }">
           <button
-            class="flex items-center gap-1.5 border-b border-transparent py-3 text-base text-gray-600 duration-300 ease-in-out hover:border-gray-400 hover:text-gray-900"
-            :class="{ 'text-gray-900': selected }"
+            class="flex h-[40px] items-center gap-1.5 text-base ease-in-out"
+            :class="[
+              selected
+                ? '!text-[#F05A28] dark:!text-[#F05A28]'
+                : [
+                    // Light mode default & hover
+                    '!text-gray-900 hover:!text-[#F05A28]',
+                    // Dark mode default & hover
+                    'dark:!text-white dark:hover:!text-[#F05A28]',
+                  ],
+            ]"
           >
             <component v-if="tab.icon" :is="tab.icon" class="size-4" />
             {{ tab.label }}
@@ -30,7 +39,7 @@
       </Tab>
       <div
         ref="indicator"
-        class="absolute bottom-0 h-px bg-gray-900"
+        class="absolute bottom-0 h-px !bg-[#F05A28] hover:!bg-[#F05A28]"
         :class="transitionClass"
         :style="{ left: `${indicatorLeft}px` }"
       />
