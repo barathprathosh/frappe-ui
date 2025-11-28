@@ -10,7 +10,7 @@
         <slot name="target" v-bind="{ open: openPopover, togglePopover }">
           <div class="w-full">
             <button
-              class="flex h-7 w-full items-center justify-between gap-2 rounded bg-gray-100 px-2 py-1 transition-colors hover:bg-gray-200 focus:ring-2 focus:ring-gray-400"
+              class="flex h-7 w-full items-center justify-between gap-2 rounded bg-gray-100 px-2 py-1 transition-colors hover:bg-gray-200 focus:ring-2 focus:ring-gray-400 dark:!bg-black"
               :class="{ 'bg-gray-200': isComboboxOpen }"
               @click="() => togglePopover()"
             >
@@ -35,7 +35,7 @@
       <template #body="{ isOpen, togglePopover }">
         <div v-show="isOpen">
           <div
-            class="relative mt-1 rounded-lg bg-white text-base shadow-2xl"
+            class="relative mt-1 rounded-lg bg-white text-base shadow-2xl dark:!bg-[#232830] dark:!text-white"
             :class="bodyClasses"
           >
             <ComboboxOptions
@@ -45,7 +45,7 @@
             >
               <div
                 v-if="!hideSearch"
-                class="sticky top-0 z-10 flex items-stretch space-x-1.5 bg-white py-1.5"
+                class="sticky top-0 z-10 flex items-stretch space-x-1.5 bg-white py-1.5 dark:!bg-[#232830] dark:!text-white"
               >
                 <div class="relative w-full">
                   <ComboboxInput
@@ -76,7 +76,7 @@
               >
                 <div
                   v-if="group.group && !group.hideLabel"
-                  class="sticky top-10 truncate bg-white px-2.5 py-1.5 text-sm font-medium text-gray-600"
+                  class="sticky top-10 truncate bg-white px-2.5 py-1.5 text-sm font-medium text-gray-600 dark:bg-[#232830] dark:text-white"
                 >
                   {{ group.group }}
                 </div>
@@ -89,8 +89,10 @@
                 >
                   <li
                     :class="[
-                      'flex cursor-pointer items-center justify-between rounded px-2.5 py-1.5 text-base',
-                      { 'bg-gray-100': active },
+                      'flex cursor-pointer items-center justify-between rounded px-2.5 py-1.5 text-base dark:text-white',
+                      active
+                        ? 'bg-[#F05A28] text-white'
+                        : 'hover:bg-[#F05A28] hover:text-white',
                     ]"
                   >
                     <div class="flex flex-1 gap-2 overflow-hidden">
@@ -136,7 +138,7 @@
               </div>
               <li
                 v-if="groups.length == 0"
-                class="rounded-md px-2.5 py-1.5 text-base text-gray-600"
+                class="rounded-md px-2.5 py-1.5 text-base text-gray-600 dark:text-white"
               >
                 No results found
               </li>
