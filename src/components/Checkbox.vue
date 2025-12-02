@@ -4,12 +4,12 @@
     :class="{
       'px-2.5 py-1.5': padding && size === 'sm',
       'px-3 py-2': padding && size === 'md',
-      'focus-within:bg-gray-100 focus-within:ring-2 focus-within:ring-gray-400 hover:bg-gray-200 active:bg-gray-300':
+      'focus-within:bg-gray-100 focus-within:ring-2 focus-within:ring-gray-400 hover:bg-gray-200 active:!bg-[#F5551B]':
         padding && !disabled,
     }"
   >
     <input
-      class="rounded-sm"
+      class="rounded-sm border border-black checked:border-[#F5551B] checked:bg-[#F5551B]"
       :class="inputClasses"
       type="checkbox"
       :disabled="disabled"
@@ -59,13 +59,13 @@ const labelClasses = computed(() => {
 const inputClasses = computed(() => {
   let baseClasses = props.disabled
     ? 'border-gray-300 bg-gray-50 text-gray-400'
-    : 'border-solid border-black border-outline-gray-4 text-[#F05A28] hover:border-[#F05A28] focus:ring-offset-0 focus:border-[#F05A28] active:border-[#F05A28] transition'
+    : 'border-solid border-black border-outline-gray-4 text-[#F5551B] hover:border-[#F5551B] focus:ring-offset-0 focus:border-[#F5551B] active:border-[#F5551B] transition'
 
   let interactionClasses = props.disabled
     ? ''
     : props.padding
     ? 'focus:ring-0'
-    : 'hover:shadow-sm focus:ring-0 focus-visible:ring-2 focus-visible:ring-gray-400 active:bg-gray-100'
+    : 'hover:shadow-sm focus:ring-0 focus-visible:ring-2 focus-visible:ring-gray-400 active:!bg-[#F5551B]'
 
   let sizeClasses = {
     sm: 'w-3.5 h-3.5',

@@ -34,7 +34,7 @@
           leave-to="opacity-50 translate-y-4 translate-y-4 scale-95"
         >
           <DialogPanel
-            class="my-8 inline-block w-full transform overflow-hidden rounded-xl bg-white text-left align-middle shadow-xl transition-all"
+            class="my-8 inline-block w-full transform overflow-hidden rounded-xl bg-white text-left align-middle shadow-xl transition-all dark:!bg-[#232830]"
             :class="{
               'max-w-7xl': options.size === '7xl',
               'max-w-6xl': options.size === '6xl',
@@ -51,7 +51,9 @@
           >
             <slot name="body">
               <slot name="body-main">
-                <div class="bg-white px-4 pb-6 pt-5 sm:px-6">
+                <div
+                  class="bg-white px-4 pb-6 pt-5 sm:px-6 dark:!bg-[#232830] dark:!text-white"
+                >
                   <div class="flex">
                     <div class="w-full flex-1">
                       <div class="mb-6 flex items-center justify-between">
@@ -91,7 +93,11 @@
                             </slot>
                           </DialogTitle>
                         </div>
-                        <Button variant="ghost" @click="close">
+                        <Button
+                          variant="ghost"
+                          @click="close"
+                          class="dark:!text-white"
+                        >
                           <template #icon>
                             <svg
                               width="16"

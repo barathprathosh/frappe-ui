@@ -18,7 +18,7 @@
         class="grid items-center space-x-4 rounded px-3"
         :class="
           list.selections.has(row[list.rowKey])
-            ? 'bg-gray-100 hover:bg-gray-200 dark:hover:!bg-black'
+            ? 'bg-gray-100 hover:bg-gray-200 dark:!bg-[#232830] dark:hover:!bg-black'
             : 'hover:bg-gray-50 dark:hover:!bg-black'
         "
         :style="{
@@ -30,12 +30,11 @@
         }"
       >
         <Checkbox
-          variant="subtle"
           size="sm"
           v-if="list.options.selectable"
           :modelValue="list.selections.has(row[list.rowKey])"
           @click.stop="list.toggleRow(row[list.rowKey])"
-          class="cursor-pointer duration-300 dark:!bg-[#232830]"
+          class="cursor-pointer duration-300"
         />
         <div
           v-for="(column, i) in list.columns"
