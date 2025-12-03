@@ -86,7 +86,7 @@
                           <DialogTitle as="header">
                             <slot name="body-title">
                               <h3
-                                class="text-2xl font-semibold leading-6 text-gray-900"
+                                class="font-oswl text-2xl font-semibold leading-6 text-gray-900 dark:!text-white"
                               >
                                 {{ options.title || 'Untitled' }}
                               </h3>
@@ -96,7 +96,7 @@
                         <Button
                           variant="ghost"
                           @click="close"
-                          class="dark:!text-white"
+                          class="dark:!bg-none dark:!text-white"
                         >
                           <template #icon>
                             <svg
