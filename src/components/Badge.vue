@@ -41,7 +41,7 @@ const props = withDefaults(defineProps<BadgeProps>(), {
 
 const classes = computed(() => {
   let solidClasses = {
-    gray: 'text-white bg-gray-900',
+    gray: 'text-white bg-[#F05A28]',
     blue: 'text-white bg-blue-500',
     green: 'text-white bg-green-600',
     orange: 'text-white bg-amber-600',
