@@ -12,7 +12,7 @@
       class="absolute inset-x-0 bottom-6 mx-auto w-max text-base"
     >
       <div
-        class="flex min-w-[596px] items-center space-x-3 rounded-lg bg-white px-4 py-2 shadow-2xl"
+        class="flex min-w-[596px] items-center space-x-3 rounded-lg bg-white px-4 py-2 shadow-2xl dark:!bg-black dark:!text-white"
         :class="$attrs.class"
       >
         <slot
@@ -32,9 +32,9 @@
                 :disabled="true"
                 class="text-gray-900"
               />
-              <div>{{ selectedText }}</div>
+              <div class="dark:!text-white">{{ selectedText }}</div>
             </div>
-            <div class="mr-3">
+            <div class="mr-3 dark:!text-white">
               <slot
                 name="actions"
                 v-bind="{
@@ -46,12 +46,11 @@
               />
             </div>
           </div>
-          <div class="flex items-center space-x-1">
+          <div class="flex items-center space-x-1 dark:!bg-black">
             <Button
-              class="w- text-gray-700"
               :disabled="list.allRowsSelected"
               :class="list.allRowsSelected ? 'cursor-not-allowed' : ''"
-              variant="ghost"
+              variant="custom"
               @click="list.toggleAllRows(true)"
             >
               Select all
