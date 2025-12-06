@@ -108,9 +108,18 @@ const inputClasses = computed(() => {
     outline:
       'outline-border border-[#898989 !important] !h-[45px] !rounded-[8px] bg-surface-white placeholder-ink-gray-4 hover:border-outline-gray-3 hover:shadow-sm focus:bg-surface-white focus:border-outline-gray-4 focus:shadow-sm focus:ring-0 focus-visible:ring-2 focus-visible:ring-outline-gray-3 dark:!bg-[#101213] dark:!text-[white] dark:!border-[#898989!important]',
     disabled: [
-      props.variant === 'outline'
-        ? 'outline-border dark:!bg-[#101213] dark:!text-[white] dark:!border-[#898989!important] border-[#898989 !important] !h-[45px] !rounded-[8px] bg-surface-white placeholder-ink-gray-4'
-        : 'outline-border dark:!bg-[#101213] dark:!text-[white] dark:!border-[#898989!important] border-[#898989 !important] !h-[52px] !rounded-[8px] bg-surface-white placeholder-ink-gray-4',
+      '!h-[45px] !rounded-[8px] outline-border',
+
+      // ⭐ Light mode (lighter)
+      '!bg-[#F5F5F5]',
+      '!text-[#9CA3AF]',
+      '!border-[#D1D5DB]',
+      'placeholder:!text-[#BFC4C9]',
+
+      // ⭐ Dark mode (lighter)
+      'dark:!bg-[#181A1B]',
+      'dark:!text-[#BFC4C9]',
+      'dark:!border-[#4B5563]',
     ],
   }[variant]
 

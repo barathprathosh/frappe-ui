@@ -1,8 +1,8 @@
 <template>
   <div
-    class="my-2 min-w-[15rem] max-w-[40rem] rounded-lg border bg-white p-4 shadow-md"
+    class="my-2 min-w-[15rem] max-w-[40rem] rounded-lg border bg-white p-4 shadow-md dark:!bg-black dark:!text-white"
   >
-    <div class="flex items-start">
+    <div class="flex items-start dark:!text-white">
       <div v-if="icon" class="mr-3 grid h-5 w-5 place-items-center">
         <FeatherIcon :name="icon" :class="['h-5 w-5', iconClasses]" />
       </div>
@@ -10,12 +10,12 @@
         <slot>
           <p
             v-if="title"
-            class="text-base font-medium text-gray-900"
+            class="text-base font-medium text-gray-900 dark:!text-white"
             :class="{ 'mb-1': text }"
           >
             {{ title }}
           </p>
-          <p v-if="text" class="text-base text-gray-600">
+          <p v-if="text" class="text-base text-gray-600 dark:!text-white">
             {{ text }}
           </p>
         </slot>
@@ -26,7 +26,10 @@
             class="grid h-5 w-5 place-items-center rounded hover:bg-gray-100"
             @click="$emit('close')"
           >
-            <FeatherIcon name="x" class="h-4 w-4 text-gray-700" />
+            <FeatherIcon
+              name="x"
+              class="h-4 w-4 text-gray-700 dark:!text-white"
+            />
           </button>
         </slot>
       </div>
