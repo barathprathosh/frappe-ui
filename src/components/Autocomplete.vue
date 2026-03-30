@@ -214,9 +214,13 @@ export default {
           return this.findOption(this.modelValue)
         }
         // in case of `multiple`, modelValue is an array of values
+        // Ensure modelValue is an array before calling .map()
+        if (!this.modelValue || !Array.isArray(this.modelValue)) {
+          return []
+        }
         // if the modelValue is a list of values, convert them to options
-        return isOptionOrValue(this.modelValue?.[0]) === 'value'
-          ? this.modelValue?.map((v) => this.findOption(v))
+        return isOptionOrValue(this.modelValue[0]) === 'value'
+          ? this.modelValue.map((v) => this.findOption(v))
           : this.modelValue
       },
       set(val) {
