@@ -2,6 +2,7 @@
   <Combobox
     v-model="selectedValue"
     :multiple="multiple"
+    by="value"
     nullable
     v-slot="{ open: isComboboxOpen }"
   >
@@ -84,7 +85,7 @@
                   as="template"
                   v-for="(option, idx) in group.items.slice(0, 50)"
                   :key="option?.value || idx"
-                  :value="option"
+                  :value="multiple ? option.value : option"
                   v-slot="{ active, selected }"
                 >
                   <li
@@ -213,15 +214,13 @@ export default {
         if (!this.multiple) {
           return this.findOption(this.modelValue)
         }
-        // in case of `multiple`, modelValue is an array of values
-        // Ensure modelValue is an array before calling .map()
-        if (!this.modelValue || !Array.isArray(this.modelValue)) {
-          return []
-        }
-        // if the modelValue is a list of values, convert them to options
-        return isOptionOrValue(this.modelValue[0]) === 'value'
-          ? this.modelValue.map((v) => this.findOption(v))
-          : this.modelValue
+        return Array.isArray(this.modelValue)
+          ? this.modelValue
+              .map((v) =>
+                isOptionOrValue(v) === 'value' ? v : v?.value
+              )
+              .filter((v) => v !== undefined && v !== null)
+          : []
       },
       set(val) {
         this.query = ''
@@ -230,7 +229,14 @@ export default {
           this.$emit('update:modelValue', val)
           return
         }
-        this.$emit('update:modelValue', val)
+        const values = Array.isArray(val)
+          ? val
+              .map((v) =>
+                isOptionOrValue(v) === 'value' ? v : v?.value
+              )
+              .filter((v) => v !== undefined && v !== null)
+          : []
+        this.$emit('update:modelValue', values)
       },
     },
     groups() {
@@ -317,10 +323,10 @@ export default {
       if (!this.multiple) {
         return this.selectedValue?.value === value
       }
-      return this.selectedValue?.find((v) => v && v.value === value)
+      return this.selectedValue?.includes(value)
     },
     selectAll() {
-      this.selectedValue = this.allOptions
+      this.selectedValue = this.allOptions.map((option) => option.value)
     },
     clearAll() {
       this.selectedValue = []
