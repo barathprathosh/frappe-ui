@@ -124,7 +124,11 @@ const query = ref('')
 const search = ref(null)
 
 const normalizedOptions = computed(() =>
-  Array.isArray(props.options) ? props.options : []
+  (Array.isArray(props.options) ? props.options : []).filter((option) => {
+    const label = `${option?.label ?? ''}`.trim()
+    const value = `${option?.value ?? ''}`.trim()
+    return label || value
+  })
 )
 
 const normalizedValue = computed(() =>
