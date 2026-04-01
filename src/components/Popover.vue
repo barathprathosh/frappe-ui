@@ -125,7 +125,7 @@ export default {
       }
 
       const root = document.getElementById('frappeui-popper-root')
-      const insidePopoverRoot = root.contains(clickedElement)
+      const insidePopoverRoot = root?.contains(clickedElement)
       if (!insidePopoverRoot) {
         return this.close()
       }
@@ -146,7 +146,10 @@ export default {
       document.addEventListener('click', this.listener)
     }
     this.$nextTick(() => {
-      this.targetWidth = this.$refs['target'].clientWidth
+      const target = this.$refs.target
+      if (target) {
+        this.targetWidth = target.clientWidth
+      }
     })
   },
   beforeDestroy() {
@@ -197,8 +200,12 @@ export default {
   },
   methods: {
     setupPopper() {
+      const reference = this.$refs.reference
+      const popover = this.$refs.popover
+      if (!reference || !popover) return
+
       if (!this.popper) {
-        this.popper = createPopper(this.$refs.reference, this.$refs.popover, {
+        this.popper = createPopper(reference, popover, {
           placement: this.placement,
         })
       } else {
@@ -206,6 +213,7 @@ export default {
       }
     },
     updatePosition() {
+      if (!this.$refs.reference || !this.$refs.popover) return
       this.popper && this.popper.update()
     },
     togglePopover(flag) {
