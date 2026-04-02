@@ -22,7 +22,8 @@
       :class="selectClasses"
       :disabled="disabled"
       :id="id"
-      :value="modelValue"
+      :multiple="multiple"
+      :value="multiple ? null : activeValue"
       @change="handleChange"
       v-bind="attrs"
     >
@@ -31,7 +32,11 @@
         :key="option.value"
         :value="option.value"
         :disabled="option.disabled || false"
-        :selected="modelValue === option.value"
+        :selected="
+          multiple
+            ? Array.isArray(activeValue) && activeValue.includes(option.value)
+            : activeValue === option.value
+        "
       >
         {{ option.label }}
       </option>
@@ -60,13 +65,15 @@ interface SelectProps {
   placeholder?: string
   disabled?: boolean
   id?: string
-  modelValue?: string | number
+  modelValue?: string | number | Array<string | number>
   options?: SelectOption[]
+  multiple?: boolean
 }
 
 const props = withDefaults(defineProps<SelectProps>(), {
   size: 'sm',
   variant: 'subtle',
+  multiple: false,
 })
 
 const emit = defineEmits(['update:modelValue'])
@@ -74,8 +81,34 @@ const slots = useSlots()
 const attrs = useAttrs()
 
 function handleChange(e: Event) {
-  emit('update:modelValue', (e.target as HTMLInputElement).value)
+  const target = e.target as HTMLSelectElement
+  if (props.multiple) {
+    const selectedValues = Array.from(target.selectedOptions).map(
+      (option) => option.value
+    )
+    emit('update:modelValue', selectedValues)
+  } else {
+    emit('update:modelValue', target.value)
+  }
 }
+
+const activeValue = computed(() => {
+  if (props.multiple) {
+    if (Array.isArray(props.modelValue)) {
+      return props.modelValue
+    }
+    if (attrs.value) {
+      return Array.isArray(attrs.value)
+        ? attrs.value
+        : String(attrs.value).split(',').map((v) => v.trim())
+    }
+    return []
+  }
+  if (props.modelValue !== undefined && props.modelValue !== null) {
+    return props.modelValue
+  }
+  return attrs.value
+})
 
 const selectOptions = computed(() => {
   return (
