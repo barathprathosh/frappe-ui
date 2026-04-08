@@ -53,7 +53,7 @@
                     ref="searchInput"
                     class="form-input w-full"
                     type="text"
-                    @change="
+                    @input="
                       (e) => {
                         query = e.target.value
                       }
@@ -63,8 +63,9 @@
                     placeholder="Search"
                   />
                   <button
+                    type="button"
                     class="absolute right-0 inline-flex h-7 w-7 items-center justify-center"
-                    @click="selectedValue = null"
+                    @click.stop.prevent="clearSearch"
                   >
                     <FeatherIcon name="x" class="w-4" />
                   </button>
@@ -245,26 +246,40 @@ export default {
         this.$emit('update:modelValue', values)
       },
     },
-    groups() {
+    optionGroups() {
       if (!this.options || this.options.length == 0) return []
 
       let groups = this.options[0]?.group
         ? this.options
         : [{ group: '', items: this.sanitizeOptions(this.options) }]
 
-      return groups
+      return groups.map((group, i) => {
+        return {
+          key: i,
+          group: group.group,
+          hideLabel: group.hideLabel || false,
+          items: this.sanitizeOptions(group.items),
+        }
+      })
+    },
+    groups() {
+      if (!this.optionGroups || this.optionGroups.length == 0) return []
+
+      return this.optionGroups
         .map((group, i) => {
           return {
             key: i,
             group: group.group,
             hideLabel: group.hideLabel || false,
-            items: this.filterOptions(this.sanitizeOptions(group.items)),
+            items: this.filterOptions(group.items),
           }
         })
         .filter((group) => group.items.length > 0)
     },
     allOptions() {
-      return this.groups.flatMap((group) => group.items)
+      // Use unfiltered options for label resolution so selected values
+      // continue to display even while search query filters the list.
+      return this.optionGroups.flatMap((group) => group.items)
     },
     areAllOptionsSelected() {
       if (!this.multiple) return false
@@ -280,6 +295,10 @@ export default {
     },
   },
   methods: {
+    clearSearch() {
+      this.query = ''
+      nextTick(() => this.$refs.searchInput?.$el?.focus())
+    },
     togglePopover(val) {
       this.showOptions = val ?? !this.showOptions
     },
@@ -308,7 +327,9 @@ export default {
 
       // in case of `multiple`, option is an array of values
       // so the display value should be comma separated labels
-      return option.map((v) => this.getLabel(this.findOption(v))).join(', ')
+      return option
+        .map((v) => this.getLabel(this.findOption(v) || v))
+        .join(', ')
     },
     getLabel(option) {
       if (isOptionOrValue(option) === 'value') return option
