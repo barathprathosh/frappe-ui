@@ -2,7 +2,7 @@
   <Combobox
     v-model="selectedValue"
     :multiple="multiple"
-    by="value"
+    :by="comboboxBy"
     nullable
     v-slot="{ open: isComboboxOpen }"
   >
@@ -209,6 +209,12 @@ export default {
     }
   },
   computed: {
+    comboboxBy() {
+      // In multiple mode this component emits primitive values.
+      // Using `by="value"` makes all primitives compare as `undefined`,
+      // which breaks multi-select toggling.
+      return this.multiple ? undefined : 'value'
+    },
     selectedValue: {
       get() {
         if (!this.multiple) {
