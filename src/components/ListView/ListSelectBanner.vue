@@ -9,7 +9,7 @@
   >
     <div
       v-if="list.selections.size"
-      class="absolute inset-x-0 bottom-6 mx-auto w-max text-base"
+      class="absolute bottom-4 left-1/2 z-50 w-max -translate-x-1/2 text-base"
     >
       <div
         class="flex min-w-[596px] items-center space-x-3 rounded-lg bg-white px-4 py-2 shadow-2xl dark:!bg-black dark:!text-white"

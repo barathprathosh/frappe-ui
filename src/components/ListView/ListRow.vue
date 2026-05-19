@@ -33,7 +33,7 @@
           size="sm"
           v-if="list.options.selectable"
           :modelValue="list.selections.has(row[list.rowKey])"
-          @click.stop="list.toggleRow(row[list.rowKey])"
+          @click.stop="list.toggleRow(row[list.rowKey], { shiftKey: $event.shiftKey })"
           class="cursor-pointer duration-300"
         />
         <div
