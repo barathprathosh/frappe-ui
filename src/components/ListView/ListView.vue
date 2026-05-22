@@ -1,7 +1,7 @@
 <template>
-  <div class="relative flex w-full flex-1 flex-col overflow-x-auto !px-[1rem]">
+  <div class="relative flex h-full min-h-0 w-full flex-1 flex-col overflow-x-auto !px-[1rem]">
     <div
-      class="flex w-max min-w-full flex-col overflow-y-hidden rounded-[16px] border border-solid border-[#E7E7E7] bg-[#FFFFFF] dark:!border-[#656565] dark:!bg-[#232830]"
+      class="flex h-full min-h-0 w-max min-w-full flex-col overflow-y-hidden rounded-[16px] border border-solid border-[#E7E7E7] bg-[#FFFFFF] dark:!border-[#656565] dark:!bg-[#232830]"
       style="border: 1px solid #e7e7e7"
       :class="$attrs.class"
     >
@@ -23,7 +23,7 @@ import ListHeader from './ListHeader.vue'
 import ListRows from './ListRows.vue'
 import ListGroups from './ListGroups.vue'
 import ListSelectBanner from './ListSelectBanner.vue'
-import { reactive, computed, provide, watch, useSlots } from 'vue'
+import { reactive, computed, provide, watch, useSlots, ref } from 'vue'
 
 defineOptions({
   inheritAttrs: false,
@@ -62,6 +62,7 @@ const props = defineProps({
 const slots = useSlots()
 
 let selections = reactive(new Set())
+const lastSelectedRow = ref(null)
 
 const emit = defineEmits(['update:selections'])
 
@@ -110,24 +111,61 @@ let showGroupedRows = computed(() => {
   )
 })
 
-function toggleRow(row) {
+function getFlatRowKeys() {
+  if (showGroupedRows.value) {
+    return props.rows.flatMap((row) => row.rows.map((r) => r[props.rowKey]))
+  }
+  return props.rows.map((row) => row[props.rowKey])
+}
+
+function toggleRow(row, options = {}) {
+  const { shiftKey = false } = options
+
+  if (shiftKey && lastSelectedRow.value !== null) {
+    const flatRowKeys = getFlatRowKeys()
+    const start = flatRowKeys.indexOf(lastSelectedRow.value)
+    const end = flatRowKeys.indexOf(row)
+
+    if (start !== -1 && end !== -1) {
+      const targetSelectedState = !selections.has(row)
+      const rangeStart = Math.min(start, end)
+      const rangeEnd = Math.max(start, end)
+
+      for (let i = rangeStart; i <= rangeEnd; i++) {
+        const rowKey = flatRowKeys[i]
+        if (targetSelectedState) {
+          selections.add(rowKey)
+        } else {
+          selections.delete(rowKey)
+        }
+      }
+
+      lastSelectedRow.value = row
+      return
+    }
+  }
   if (!selections.delete(row)) {
     selections.add(row)
   }
+
+  lastSelectedRow.value = row
 }
 
 function toggleAllRows(select) {
   if (!select || allRowsSelected.value) {
     selections.clear()
+    lastSelectedRow.value = null
     return
   }
   if (showGroupedRows.value) {
     props.rows.forEach((row) => {
       row.rows.forEach((r) => selections.add(r[props.rowKey]))
     })
+    lastSelectedRow.value = null
     return
   }
   props.rows.forEach((row) => selections.add(row[props.rowKey]))
+  lastSelectedRow.value = null
 }
 
 provide(

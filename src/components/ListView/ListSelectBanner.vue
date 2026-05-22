@@ -7,7 +7,7 @@
     leave-from-class="opacity-100"
     leave-to-class="transform opacity-0"
   >
-    <div
+  <div
       v-if="list.selections.size"
       class="absolute inset-x-0 bottom-6 mx-auto w-max text-base"
     >
