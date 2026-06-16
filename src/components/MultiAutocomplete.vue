@@ -136,14 +136,18 @@ const normalizedValue = computed(() =>
 )
 
 const filteredOptions = computed(() => {
-  if (!query.value) return normalizedOptions.value
-
-  const searchText = query.value.toLowerCase()
-  return normalizedOptions.value.filter((option) => {
-    const label = (option?.label || '').toString().toLowerCase()
-    const value = (option?.value || '').toString().toLowerCase()
-    return label.includes(searchText) || value.includes(searchText)
-  })
+  let result = normalizedOptions.value
+  if (query.value) {
+    const searchText = query.value.toLowerCase()
+    result = normalizedOptions.value.filter((option) => {
+      const label = (option?.label || '').toString().toLowerCase()
+      const value = (option?.value || '').toString().toLowerCase()
+      return label.includes(searchText) || value.includes(searchText)
+    })
+  }
+  return [...result].sort((a, b) =>
+    String(a.label).localeCompare(String(b.label))
+  )
 })
 
 const selectedOptions = computed(() => {

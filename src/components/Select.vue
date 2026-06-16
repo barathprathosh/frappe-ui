@@ -111,19 +111,37 @@ const activeValue = computed(() => {
 })
 
 const selectOptions = computed(() => {
-  return (
-    props.options
-      ?.map((option) => {
-        if (typeof option === 'string') {
-          return {
-            label: option,
-            value: option,
-          }
-        }
-        return option
-      })
-      .filter(Boolean) || []
-  )
+  // Handle Frappe's newline-separated options string (e.g. from SectionFields)
+  let rawOptions: SelectOption[] | undefined = props.options
+  if (typeof rawOptions === 'string') {
+    rawOptions = (rawOptions as string).split('\n').filter(Boolean) as SelectOption[]
+  }
+
+  if (!rawOptions || rawOptions.length === 0) return []
+
+  const mapped = rawOptions
+    .map((option) => {
+      if (typeof option === 'string') {
+        return { label: option, value: option }
+      }
+      return option
+    })
+    .filter(Boolean) as { label: string; value: string; disabled?: boolean }[]
+
+  // Keep leading empty/placeholder option pinned at top; sort everything else
+  if (
+    mapped.length > 1 &&
+    (mapped[0].value === '' ||
+      mapped[0].value === null ||
+      mapped[0].value === undefined)
+  ) {
+    const [first, ...rest] = mapped
+    return [
+      first,
+      ...rest.sort((a, b) => String(a.label).localeCompare(String(b.label))),
+    ]
+  }
+  return [...mapped].sort((a, b) => String(a.label).localeCompare(String(b.label)))
 })
 
 const textColor = computed(() => {
