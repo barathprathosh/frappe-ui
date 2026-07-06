@@ -6,6 +6,7 @@
     <Select
       v-if="type === 'select'"
       :id="id"
+      :options="sortedOptions"
       v-bind="{ ...controlAttrs, size }"
     >
       <template #prefix v-if="$slots.prefix">
@@ -14,6 +15,7 @@
     </Select>
     <Autocomplete
       v-else-if="type === 'autocomplete'"
+      :options="sortedOptions"
       v-bind="{ ...controlAttrs }"
     >
       <template #prefix v-if="$slots.prefix">
@@ -56,11 +58,14 @@ import Textarea from './Textarea.vue'
 import Checkbox from './Checkbox.vue'
 import Autocomplete from './Autocomplete.vue'
 
+type RawOption = string | { label: string; value: string; disabled?: boolean }
+
 interface FormControlProps {
   label?: string
   description?: string
   type?: TextInputTypes | 'textarea' | 'select' | 'checkbox' | 'autocomplete'
   size?: 'sm' | 'md'
+  options?: string | RawOption[]
 }
 
 const id = useId()
@@ -71,14 +76,38 @@ const props = withDefaults(defineProps<FormControlProps>(), {
 
 const attrs = useAttrs()
 const controlAttrs = computed(() => {
-  // pass everything except class and style
+  // pass everything except class, style, and options (handled separately)
   let _attrs: typeof attrs = {}
   for (let key in attrs) {
-    if (key !== 'class' && key !== 'style') {
+    if (key !== 'class' && key !== 'style' && key !== 'options') {
       _attrs[key] = attrs[key]
     }
   }
   return _attrs
+})
+
+const sortedOptions = computed(() => {
+  let raw: RawOption[] = []
+  if (typeof props.options === 'string') {
+    raw = props.options.split('\n').filter(Boolean) as RawOption[]
+  } else if (Array.isArray(props.options)) {
+    raw = props.options
+  } else {
+    return []
+  }
+
+  const mapped = raw
+    .map((o) => (typeof o === 'string' ? { label: o, value: o } : o))
+    .filter(Boolean) as { label: string; value: string; disabled?: boolean }[]
+
+  if (
+    mapped.length > 1 &&
+    (mapped[0].value === '' || mapped[0].value === null || mapped[0].value === undefined)
+  ) {
+    const [first, ...rest] = mapped
+    return [first, ...rest.sort((a, b) => String(a.label).localeCompare(String(b.label)))]
+  }
+  return [...mapped].sort((a, b) => String(a.label).localeCompare(String(b.label)))
 })
 
 const labelClasses = computed(() => {

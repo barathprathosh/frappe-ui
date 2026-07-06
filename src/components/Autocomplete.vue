@@ -308,13 +308,18 @@ export default {
       return this.allOptions.find((o) => o.value === value)
     },
     filterOptions(options) {
-      if (!this.query) return options
-      return options.filter((option) => {
-        return (
-          option.label.toLowerCase().includes(this.query.toLowerCase()) ||
-          option.value.toLowerCase().includes(this.query.toLowerCase())
-        )
-      })
+      let filtered = options
+      if (this.query) {
+        filtered = options.filter((option) => {
+          return (
+            option.label.toLowerCase().includes(this.query.toLowerCase()) ||
+            option.value.toLowerCase().includes(this.query.toLowerCase())
+          )
+        })
+      }
+      return [...filtered].sort((a, b) =>
+        String(a.label).localeCompare(String(b.label))
+      )
     },
     displayValue(option) {
       if (!option) return ''
